@@ -1,6 +1,8 @@
-import requests
+import requests, tempfile
 from PIL import Image
 from io import BytesIO
+from zipfile import ZipFile
+import numpy as np
 
 _base_url = "https://mtf-sat.synvinkel.org"
 
@@ -41,10 +43,19 @@ class _Series:
 
     def fetch_data(self, i):
         url = self._data["images"][i]["rawUrl"]
-        #url = url.replace(".png", ".zip")
         r = self._client.get(url)
-        raise Exception("not implemented")
-        # TODO: unzip and combine tiff files.
+        zip = ZipFile(BytesIO(r.content))
+        images = []
+        with tempfile.TemporaryDirectory() as tmpdir:
+            for name in zip.namelist():
+                if name.endswith(".tif"):
+                    zip.extract(name, tmpdir)
+                    images.append(Image.open(tmpdir + "/" + name))
+        zip.close()
+        arrays = [np.array(image) for image in images]
+        combined_image = np.dstack(arrays)
+        return combined_image
+
 
     def fetch_rgba(self, i):
         url = self._data["images"][i]["url"]
