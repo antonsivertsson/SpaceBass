@@ -15,7 +15,8 @@ class PixelGMM:
             n_pix *= dim
         pixels = np.stack(images).reshape((n_pix*len(images), n_channels))
         print(pixels.shape)
-        self.model.fit(pixels)
+        sample = pixels[np.random.randint(0, pixels.shape[0], 1000000), :]
+        self.model.fit(sample)
     
     def segment(self, image):
         (nr, nc, n_channels) = image.shape
