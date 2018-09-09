@@ -1,7 +1,7 @@
 import sys
-from tools import label
-from util import data
 import json
+from tools import label
+from util import data, plot
 from config import *
 
 labels = [
@@ -23,7 +23,7 @@ if __name__ == "__main__":
     else:
         path = DOWNLOAD_PATH
     imgs, names = data.load_image_set(path)
-    rgbs = [img[:, :, 1:4] for img in imgs]
+    rgbs = [plot.optimize_raw_for_display(img, [3, 2, 1]) for img in imgs]
     print('Found %d images' % len(rgbs))
     for i in range(len(rgbs)):
         rgb = rgbs[i]
@@ -37,7 +37,7 @@ if __name__ == "__main__":
             pass
         for l in labels:
             existing = picks[l] if l in picks else []
-            points = label.pick_regions(rgb/8000, l, existing)
+            points = label.pick_regions(rgb, l, existing)
             print('File: %s' % name)
             print('Points picked: %s' % (points, ))
             picks[l] = points

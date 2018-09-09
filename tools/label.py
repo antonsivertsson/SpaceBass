@@ -8,15 +8,21 @@ class Markers:
         self.points = points
         self.xs = list(points.get_xdata())
         self.ys = list(points.get_ydata())
-        self.cid = points.figure.canvas.mpl_connect('button_press_event', self)
+        self.cid = points.figure.canvas.mpl_connect('button_press_event', self.click)
+        self.cid2 = points.figure.canvas.mpl_connect('key_press_event', self.press)
 
-    def __call__(self, event):
+    def click(self, event):
         print('click', event)
         if event.inaxes != self.points.axes: return
         self.xs.append(event.xdata)
         self.ys.append(event.ydata)
         self.points.set_data(self.xs, self.ys)
         self.points.figure.canvas.draw()
+
+    def press(self, event):
+        if event.key == "q":
+            import sys
+            sys.exit(0)
 
 
 def pick_regions(img, label, existing_points=[]):
