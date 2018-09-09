@@ -10,6 +10,9 @@ def optimize_raw_for_display(raw, channels=None):
             channels = range(d)
         return np.dstack([optimize_raw_for_display(raw[:, :, ch]) for ch in channels])
 
+def raws_to_rgbs(raws):
+    return [optimize_raw_for_display(raw, [3, 2, 1]) for raw in raws]
+
 def show(image):
     import matplotlib.pyplot as plt
     import matplotlib.image as mpimg
