@@ -3,7 +3,7 @@ import numpy as np
 
 def optimize_raw_for_display(raw, channels=None):
     if len(raw.shape) == 2 or raw.shape[2] == 1:
-        return exposure.equalize_adapthist(raw, clip_limit=0.03)
+        return exposure.equalize_adapthist(raw, clip_limit=0.05)
     else:
         (nr, nc, d) = raw.shape
         if channels is None:
@@ -24,5 +24,9 @@ def show_all(images):
     import matplotlib.image as mpimg
     for i in range(len(images)):
         plt.subplot((len(images) + 3) // 4, min(4, len(images)), i+1)
-        imgplot = plt.imshow(images[i])
+        img = images[i]
+        if len(img.shape) == 2 or img.shape[2] == 1:
+            plt.imshow(img, cmap=plt.get_cmap("Set3"), vmin=0, vmax=11)
+        else:
+            plt.imshow(img)
     plt.show()
