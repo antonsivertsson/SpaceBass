@@ -1,10 +1,7 @@
 import json
 from client import sentinel2
 from util import data
-
-DOWNLOAD_PATH = "data/samples"
-API_KEY="" # <-- PUT KEY HERE
-PLACES_FILE="places.json"
+from config import *
 
 dates = [
     '2017-07-01',
