@@ -3,11 +3,13 @@ from analysis import segmentation
 from analysis import util
 from util import data
 
+
 class PixelClassifier:
 
-    def __init__(self, model, classes):
+    def __init__(self, model, classes, preproc=None):
         self.model = model
         self.classes = classes
+        self.preproc = preproc
     
     def train_from_dir(self, path):
         imgs, _, labels = data.load_image_set(path, with_labels=True)
@@ -20,6 +22,8 @@ class PixelClassifier:
         for (img, labs) in zip(images, labels):
             if labs is None:
                 continue
+            if self.preproc is not None:
+                img = self.preproc(img)
             for c in self.classes:
                 if c in labs:
                     pixels = util.pick_pixels(img, labs[c])
@@ -30,7 +34,6 @@ class PixelClassifier:
             for e in examples[self.classes[i_class]]:
                 x.append(e)
                 y.append(i_class)
-        print(x, y)
         self.model.fit(np.array(x), y)
         # TODO: label spreading for semi-supervised learning
     
@@ -41,4 +44,6 @@ class PixelClassifier:
         pass
 
     def segment(self, image):
+        if self.preproc is not None:
+            image = self.preproc(image)
         return segmentation.segment(self.model, image)
