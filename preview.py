@@ -1,6 +1,8 @@
 import sys
 import json
+import numpy as np
 from client import sentinel2
+from util.plot import optimize_raw_for_display
 from config import *
 
 def show(image):
@@ -23,8 +25,15 @@ if __name__ == "__main__":
     client = sentinel2.Client(api_key=API_KEY)
     series = client.fetch_series(lng=coords[0], lat=coords[1])
     frame = list(series.frames())[frame_index]
-    print(frame.date)
     img = frame.fetch_rgba()
     show(img)
     raw = frame.fetch_data()
-    show(raw[:, :, 1:4]/7000)
+    print(frame.date)
+    opt = np.dstack(
+        [
+            optimize_raw_for_display(raw[:, :, 3]),
+            optimize_raw_for_display(raw[:, :, 2]),
+            optimize_raw_for_display(raw[:, :, 1]),
+        ]
+    )
+    show(opt)
