@@ -19,6 +19,23 @@ def find_images_for_dates(client, lng, lat, dates):
         found.append(frames[i])
     return found
 
+def download_places(path, client, places, dates):
+    for name in places:
+        coords = places[name]
+        dir = "%s/%s" % (path, name)
+        frames = find_images_for_dates(client, coords[0], coords[1], dates)
+        for frame in frames:
+            import os
+            fn = "%s/%s.npy" % (dir, frame.date)
+            if os.path.isfile(fn):
+                print('%s skipped (already downloaded)' % fn)
+                continue # Already downloaded.
+            os.makedirs(dir, exist_ok=True)
+            img = frame.fetch_data()
+            with open(fn, "wb") as f:
+                np.save(f, img)
+                print('%s downloaded' % fn)
+
 def store_image_set(path, imgs, names=None):
     for i in range(len(imgs)):
         if names is None:
