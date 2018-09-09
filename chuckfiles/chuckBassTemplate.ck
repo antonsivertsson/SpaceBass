@@ -1,10 +1,9 @@
-// Variables
-185::ms => dur timeInMs;
 15::ms => dur bassBreak;
-8 => int gridLength;
-4 => int tonesToAllocate;
+timeInMs - bassBreak => timeInMs;
+gridLength/2 => gridLength;
+tonesToAllocate/2 => tonesToAllocate;
 400 => int filterVal;
-gridLength - tonesToAllocate => int sustainLeft;
+gridLength - tonesToAllocate => sustainLeft;
 
 int beatGrid[gridLength];
 for(0 => int i; i<gridLength; i++){

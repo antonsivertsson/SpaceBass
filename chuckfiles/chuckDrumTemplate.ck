@@ -1,6 +1,6 @@
 SndBuf buffer => dac;
 
-800::ms => dur timeInMs;
+4 * timeInMs => dur delayTime;
 6 => int nrOfReps;
 1 => float originGain;
 1 => float gainOfRep;
@@ -11,7 +11,7 @@ while (true){
     gainOfRep => buffer.gain;  
     me.dir() + "Klapp.wav" => buffer.read;
     for(0 => int i; i < nrOfReps; i++){
-        timeInMs/nrOfReps => now;
+        delayTime/nrOfReps => now;
         gainOfRep/speedOfDet => gainOfRep;
         gainOfRep => buffer.gain;
         me.dir() + "Klapp.wav" => buffer.read;

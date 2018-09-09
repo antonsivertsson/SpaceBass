@@ -1,8 +1,7 @@
 // Variables
-200::ms => dur timeInMs;
-32 => int gridLength;
-16 => int tonesToAllocate;
-gridLength - tonesToAllocate => int sustainLeft;
+gridLength*2 => gridLength;
+tonesToAllocate*2 => tonesToAllocate;
+gridLength - tonesToAllocate => sustainLeft;
 
 int beatGrid[gridLength];
 for(0 => int i; i<gridLength; i++){

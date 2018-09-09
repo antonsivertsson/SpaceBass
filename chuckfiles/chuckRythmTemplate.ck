@@ -1,9 +1,4 @@
-// Variables
-200::ms => dur timeInMs;
-16 => int gridLength;
-14 => int tonesToAllocate;
 400 => int filterVal;
-gridLength - tonesToAllocate => int sustainLeft;
 
 int beatGrid[gridLength];
 for(0 => int i; i<gridLength; i++){
@@ -80,6 +75,8 @@ for(0 => int x;x<gridLength;x++){
 7902.13 => float B8;
 [C3,D3,E3,F3,G3,A3,B3,C4,D4,E4,F4,G4,A4,B4,C5,D5,E5,F5,G5,A5,B5,C6,D6,E6,F6,G6,A6,B6,C7,D7,E7,F7,G7,A7,B7,C8,D8,E8,F8,G8,A8,B8] @=> float MAJCSale[];
 SinOsc drive => Gen17 g17 => BiQuad f => dac;
+SinOsc bpf => blackhole;
+5 => bpf.freq;
 // set the filter's pole radius
 .99 => f.prad;
 // set equal gain zero's
