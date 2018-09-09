@@ -4,7 +4,7 @@ SndBuf buffer => dac;
 6 => int nrOfReps;
 1 => float originGain;
 1 => float gainOfRep;
-2 => int speedOfDet;
+6 => int speedOfDet;
 
 while (true){
     originGain => gainOfRep;

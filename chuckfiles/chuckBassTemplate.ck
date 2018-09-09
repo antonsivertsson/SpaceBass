@@ -79,7 +79,8 @@ for(0 => int x;x<gridLength;x++){
 7040.00 => float A8;
 7902.13 => float B8;
 [C3,D3,E3,F3,G3,A3,B3,C4,D4,E4,F4,G4,A4,B4] @=> float BASSCSale[];
-SinOsc drive => Gen17 g17 => BiQuad f => dac;
+SinOsc drive => Gen17 g17 => BiQuad f => NRev r => dac;
+0.2 => r.mix;
 // set the filter's pole radius
 .99 => f.prad;
 // set equal gain zero's

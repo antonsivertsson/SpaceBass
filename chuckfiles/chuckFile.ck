@@ -1,7 +1,13 @@
+250::ms => dur timeInMs;
+16 => int gridLength;
+8 => int tonesToAllocate;
+gridLength - tonesToAllocate => int sustainLeft;
+[138,41,28,52,278,338,240,86,152,269,8,284] @=> int dataVals[];
 // Variables
-gridLength*2 => gridLength;
-tonesToAllocate*2 => tonesToAllocate;
-gridLength - tonesToAllocate => sustainLeft;
+200::ms => dur timeInMs;
+32 => int gridLength;
+16 => int tonesToAllocate;
+gridLength - tonesToAllocate => int sustainLeft;
 
 int beatGrid[gridLength];
 for(0 => int i; i<gridLength; i++){
@@ -77,8 +83,7 @@ for(0 => int x;x<gridLength;x++){
 7040.00 => float A8;
 7902.13 => float B8;
 [C5,D5,E5,F5,G5,A5,B5,C6,D6,E6,F6,G6,A6,B6,C7,D7,E7,F7,G7,A7,B7] @=> float LEADCSale[];
-SinOsc drive => Gen17 g17 => BiQuad f => NRev r => dac;
-0.2 => r.mix;
+SinOsc drive => Gen17 g17 => BiQuad f => dac;
 // set the filter's pole radius
 .99 => f.prad;
 // set equal gain zero's
