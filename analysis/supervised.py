@@ -38,10 +38,17 @@ class PixelClassifier:
         # TODO: label spreading for semi-supervised learning
     
     def save(self, fn):
-        pass
+        import pickle
+        with open(fn, "wb") as f:
+            pickle.dump({"model": self.model, "classes": self.classes, "preproc": self.preproc}, f)
 
     def load(self, fn):
-        pass
+        import pickle
+        with open(fn, "rb") as f:
+            data = pickle.load(f)
+        self.model = data["model"]
+        self.classes = data["classes"]
+        self.preproc = data["preproc"]
 
     def segment(self, image):
         if self.preproc is not None:
