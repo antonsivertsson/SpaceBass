@@ -24,6 +24,9 @@ class _Frame:
         r = self._client.get(url)
         return Image.open(BytesIO(r.content))
 
+    def fetch_data(self):
+        return self._client.get_data(self.rawUrl)
+
 
 class _Series:
 
@@ -79,6 +82,20 @@ class Client:
     def get_image(self, url):
         r = self.get(url)
         return Image.open(BytesIO(r.content))
+
+    def get_data(self, url):
+        r = self.get(url)
+        zip = ZipFile(BytesIO(r.content))
+        images = []
+        with tempfile.TemporaryDirectory() as tmpdir:
+            for name in zip.namelist():
+                if name.endswith(".tif"):
+                    zip.extract(name, tmpdir)
+                    images.append(Image.open(tmpdir + "/" + name))
+        zip.close()
+        arrays = [np.array(image) for image in images]
+        combined_image = np.dstack(arrays)
+        return combined_image
 
     def get_route(self, path, **kwargs):
         return self.get(_base_url + '/' + path, **kwargs)
