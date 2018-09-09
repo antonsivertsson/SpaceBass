@@ -44,4 +44,4 @@ for channelIndex, templateFileName in enumerate(templateFileNames):
     with open(templateFileName[0],"r") as templateFile: template = templateFile.read()
     with open(templateFileName[1], 'w') as chuckFile: chuckFile.write(chuckVars + dataChannelString + template)
 
-subprocess.call("chuck chuck*File.ck", shell=True)
+#subprocess.call("chuck chuck*File.ck", shell=True)
