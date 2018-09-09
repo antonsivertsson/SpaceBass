@@ -51,7 +51,7 @@ def load_image_set(path, with_labels=False):
     imgs = []
     names = []
     labels = []
-    for fn in sorted(glob.glob("%s/*.npy" % path)):
+    for fn in sorted(glob.iglob("%s/**/*.npy" % path, recursive=True)):
         with open(fn, "rb") as f:
             imgs.append(np.load(f))
             names.append(fn)
