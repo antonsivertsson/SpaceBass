@@ -1,14 +1,15 @@
+import sys
 from tools import label
 from util import data
 import json
+from config import *
 
 labels = [
     "cloud",
     "city",
     "ruins",
     "agriculture",
-    "plains",
-    "desert",
+    "barren",
     "vegetation",
     "moutains",
     "charred",
@@ -17,9 +18,14 @@ labels = [
 ]
 
 if __name__ == "__main__":
-    imgs, names = data.load_image_set("data/samples")
+    if len(sys.argv) > 1:
+        path = sys.argv[1]
+    else:
+        path = DOWNLOAD_PATH
+    imgs, names = data.load_image_set(path)
     rgbs = [img[:, :, 1:4] for img in imgs]
-    for i in range(2):
+    print('Found %d images' % len(rgbs))
+    for i in range(len(rgbs)):
         rgb = rgbs[i]
         name = names[i]
         print('Labeling image...')

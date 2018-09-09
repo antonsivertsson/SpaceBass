@@ -24,4 +24,4 @@ if __name__ == "__main__":
     img = frame.fetch_rgba()
     raw = frame.fetch_data()
     opt = plot.optimize_raw_for_display(raw, [3, 2, 1])
-    plot.show_all([img, opt])
+    plot.show_all([img, raw[:, :, (3, 2, 1)]/3000, opt])
